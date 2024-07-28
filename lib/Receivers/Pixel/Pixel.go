@@ -1,7 +1,7 @@
 package pixel
 
 import (
-	dfs "Schmottky/lib/DFS"
+	common "Schmottky/lib/Senders"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -35,7 +35,7 @@ func artist() {
 	for !win.Closed() {
 		imd := imdraw.New(nil)
 
-		point, ok := <-dfs.PointChannel
+		point, ok := <-common.PointChannel
 		p := point2Pixel(point)
 		if ok {
 			if !started {

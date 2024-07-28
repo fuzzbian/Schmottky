@@ -1,7 +1,7 @@
 package img
 
 import (
-	dfs "Schmottky/lib/DFS"
+	common "Schmottky/lib/Senders"
 	"image"
 	"image/color"
 	"image/png"
@@ -32,7 +32,7 @@ func Draw() {
 	fill(myImg, color.RGBA{0, 0, 0, 255})
 
 	for {
-		p, ok := <-dfs.PointChannel
+		p, ok := <-common.PointChannel
 		if !ok {
 			break
 		}

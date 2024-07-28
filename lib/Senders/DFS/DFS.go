@@ -1,6 +1,7 @@
 package dfs
 
 import (
+	common "Schmottky/lib/Senders"
 	trafo "Schmottky/lib/Trafo"
 	"fmt"
 
@@ -9,8 +10,6 @@ import (
 )
 
 const maxLevel = 1e2
-
-var PointChannel = make(chan complex128, 1e7)
 
 var word [maxLevel + 2]trafo.T
 var tags [maxLevel + 2]int
@@ -82,7 +81,7 @@ func Run(gens [4]trafo.T, eps float64) {
 			terminate, p = branchTermination(p, eps)
 			if terminate {
 				// TODO: do something with p
-				PointChannel <- p
+				common.PointChannel <- p
 				count++
 				//fmt.Printf("%v: %v\n", count, p)
 				break
@@ -103,6 +102,6 @@ func Run(gens [4]trafo.T, eps float64) {
 		}
 	}
 	//fmt.Printf("thinl im done\n")
-	close(PointChannel)
+	close(common.PointChannel)
 	fmt.Println("Done.")
 }

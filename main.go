@@ -1,8 +1,8 @@
 package main
 
 import (
-	dfs "Schmottky/lib/DFS"
-	img "Schmottky/lib/Image"
+	img "Schmottky/lib/Receivers/Image"
+	fromFile "Schmottky/lib/Senders/File"
 	trafo "Schmottky/lib/Trafo"
 	"fmt"
 )
@@ -20,13 +20,16 @@ func main() {
 	B := b.Inverse()
 
 	var gens = [4]trafo.T{a, b, A, B}
+	fmt.Printf("%v", gens)
 
 	/* start dfs */
-	eps := 0.00001
-	go dfs.Run(gens, eps)
+	//eps := 0.0001
+	//go dfs.Run(gens, eps)
+	go fromFile.Read("/dev/shm/schmooo.data")
 
 	/*start receiver*/
 	//pixel.StartDrawing()
 	img.Draw()
+	//raw.ToFile("/dev/shm/schmooo.data")
 
 }
