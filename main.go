@@ -1,10 +1,10 @@
 package main
 
 import (
-	grandmas "Schmottky/lib/GrandmasRecipes"
-	matplotlib "Schmottky/lib/Receivers/MatPlotLib"
+	img "Schmottky/lib/Receivers/Image"
 	dfs "Schmottky/lib/Senders/DFS"
 	trafo "Schmottky/lib/Trafo"
+	pqwords "Schmottky/lib/pqWords"
 	"fmt"
 )
 
@@ -22,7 +22,7 @@ func main() {
 	// p. 293 - (ii)
 	//a, b := grandmas.SpecialParabolic(1.8964073 - 0.0487530i, 2 + 0i)
 	// p. 293 - (iii)
-	a, b := grandmas.SpecialParabolic(1.91-0.05i, 2+0i)
+	//a, b := grandmas.SpecialParabolic(1.91-0.05i, 2+0i)
 	// p. 293 - (iv)
 	//a, b := grandmas.SpecialParabolic(1.90378 - 0.03958i, 2 + 0i)
 	// p. 272
@@ -30,11 +30,13 @@ func main() {
 	// p. 269
 	//a, b := grandmas.SpecialParabolic(1.95859 - 0.01128i, 2 + 0i)
 
+	a, b := pqwords.GetTrafos(2, 19)
+
 	A := a.Inverse()
 	B := b.Inverse()
 
 	var gens = [4]trafo.T{a, b, A, B}
-	//fmt.Printf("%T", gens)
+	//fmt.Printf("%v", gens)
 
 	/* start dfs */
 	eps := 0.0001
@@ -43,8 +45,8 @@ func main() {
 
 	/*start receiver*/
 	//pixel.StartDrawing()
-	//img.Draw()
+	img.Draw()
 	//raw.ToFile("/dev/shm/schmooo.data")
-	matplotlib.Plot()
+	//matplotlib.Plot()
 
 }

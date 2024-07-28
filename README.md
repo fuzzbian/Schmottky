@@ -9,7 +9,9 @@ Playground for fractal fun
 * add UI
     * CLI
     * GUI
-* add P/Q calculation
+* ~~add P/Q calculation~~
+* add color scripting (Lua Api?), optional lev channel in dfs?
+* add venv for python scripts
 * add lines operation for Img
 * add calculation for optical eps
 * add algo for cropped Image
