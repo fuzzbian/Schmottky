@@ -20,10 +20,6 @@ func byteToComplex128(b []byte) complex128 {
 	return complex(r, i)
 }
 
-func Test(b []byte) complex128 {
-	return byteToComplex128(b)
-}
-
 func Read(fname string) (ret int) {
 	// open file
 	f, err := os.Open(fname)

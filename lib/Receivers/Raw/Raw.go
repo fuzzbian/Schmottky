@@ -44,7 +44,3 @@ func ToFile(fname string) (ret int) {
 	}
 	return
 }
-
-func Test(c complex128) []byte {
-	return complex128ToByte(c)
-}
