@@ -1,4 +1,4 @@
-package fromFile
+package fromfile
 
 import (
 	common "Schmottky/lib/Senders"
@@ -10,7 +10,7 @@ import (
 )
 
 func byteToFloat64(b []byte) float64 {
-	bits := binary.BigEndian.Uint64(b)
+	bits := binary.LittleEndian.Uint64(b)
 	return math.Float64frombits(bits)
 }
 

@@ -3,7 +3,7 @@ Playground for fractal fun
 
 ## TODO
 * ~~add sender/receiver for raw data output~~
-* add receiver for matplotlib
+* ~~add receiver for matplotlib~~
 * add Grandma's recipes
     * ~~Special Parabolic~~
 * add UI
