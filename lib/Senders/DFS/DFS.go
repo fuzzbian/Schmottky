@@ -9,10 +9,10 @@ import (
 	"math/cmplx"
 )
 
-const maxLevel = 1e2
+const MaxLevel = 1e2
 
-var word [maxLevel + 2]trafo.T
-var tags [maxLevel + 2]int
+var word [MaxLevel + 2]trafo.T
+var tags [MaxLevel + 2]int
 var begpt [4]complex128
 var endpt [4]complex128
 var lev int = 0
@@ -61,7 +61,10 @@ func turnAndGoForward(gens [4]trafo.T) {
 func branchTermination(oldP complex128, eps float64) (bool, complex128) {
 	newP := word[lev].On(endpt[tags[lev]])
 	//fmt.Printf("%v\n", lev)
-	if cmplx.Abs(oldP-newP) < eps || lev == maxLevel {
+	if cmplx.Abs(oldP-newP) < eps || lev == MaxLevel {
+		if common.LevTracking {
+			common.LevChannel <- lev
+		}
 		return true, newP
 	}
 	return false, oldP
@@ -103,5 +106,8 @@ func Run(gens [4]trafo.T, eps float64) {
 	}
 	//fmt.Printf("thinl im done\n")
 	close(common.PointChannel)
+	if common.LevTracking {
+		close(common.LevChannel)
+	}
 	fmt.Println("Done.")
 }

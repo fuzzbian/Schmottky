@@ -2,6 +2,7 @@ package main
 
 import (
 	img "Schmottky/lib/Receivers/Image"
+	common "Schmottky/lib/Senders"
 	dfs "Schmottky/lib/Senders/DFS"
 	trafo "Schmottky/lib/Trafo"
 	pqwords "Schmottky/lib/pqWords"
@@ -40,6 +41,7 @@ func main() {
 
 	/* start dfs */
 	eps := 0.0001
+	common.LevTracking = true
 	go dfs.Run(gens, eps)
 	//go fromFile.Read("/dev/shm/schmooo.data")
 
