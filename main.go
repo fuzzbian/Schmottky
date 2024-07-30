@@ -1,11 +1,11 @@
 package main
 
 import (
+	grandmas "Schmottky/lib/GrandmasRecipes"
 	img "Schmottky/lib/Receivers/Image"
 	common "Schmottky/lib/Senders"
 	dfs "Schmottky/lib/Senders/DFS"
 	trafo "Schmottky/lib/Trafo"
-	pqwords "Schmottky/lib/pqWords"
 	"fmt"
 )
 
@@ -29,9 +29,9 @@ func main() {
 	// p. 272
 	//a, b := grandmas.SpecialParabolic(1.64213876 - 0.76658841i, 2 + 0i)
 	// p. 269
-	//a, b := grandmas.SpecialParabolic(1.95859 - 0.01128i, 2 + 0i)
+	a, b := grandmas.SpecialParabolic(1.95859-0.01128i, 2+0i)
 
-	a, b := pqwords.GetTrafos(2, 19)
+	//a, b := pqwords.GetTrafos(7, 30)
 
 	A := a.Inverse()
 	B := b.Inverse()
@@ -40,7 +40,7 @@ func main() {
 	//fmt.Printf("%v", gens)
 
 	/* start dfs */
-	eps := 0.0001
+	eps := 0.001
 	common.LevTracking = true
 	go dfs.Run(gens, eps)
 	//go fromFile.Read("/dev/shm/schmooo.data")

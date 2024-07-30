@@ -2,15 +2,17 @@ package img
 
 import (
 	common "Schmottky/lib/Senders"
-	dfs "Schmottky/lib/Senders/DFS"
+	"fmt"
 	"image"
 	"image/color"
 	"image/png"
-	"math/cmplx"
 	"os"
+	"strconv"
+
+	lua "github.com/yuin/gopher-lua"
 )
 
-var MaxCoordinate float64 = 1.3
+var MaxCoordinate float64 = 1.03
 var MaxPixel float64 = 1e4
 
 func point2Pixel(z complex128) (int, int) {
@@ -28,15 +30,77 @@ func fill(img *image.RGBA, c color.RGBA) {
 	}
 }
 
-func getColor(p complex128, lev int) color.RGBA {
+var px, py, l float64
 
-	r := uint8(255)
-	g := uint8((cmplx.Abs(0-p) / MaxCoordinate) * float64(255))
-	b := uint8((float64(lev) / float64(dfs.MaxLevel)) * float64(255))
-	//fmt.Printf("%v\n", b)
-	a := uint8(255)
+func GetPointX(L *lua.LState) int {
+	L.Push(lua.LNumber(px))
+	return 1
+}
+func GetPointY(L *lua.LState) int {
+	L.Push(lua.LNumber(py))
+	return 1
+}
+func GetLev(L *lua.LState) int {
+	L.Push(lua.LNumber(l))
+	return 1
+}
+func GetMax(L *lua.LState) int {
+	L.Push(lua.LNumber(MaxCoordinate))
+	return 1
+}
 
-	return color.RGBA{r, g, b, a}
+func getColorLua(p complex128, lev int) color.RGBA {
+	fileName := "./lib/Receivers/Image/color.lua"
+	px = real(p)
+	py = imag(p)
+	l = float64(lev)
+
+	// set up
+	L := lua.NewState()
+	defer L.Close()
+
+	// export functions as external API
+	L.SetGlobal("getX", L.NewFunction(GetPointX))
+	L.SetGlobal("getY", L.NewFunction(GetPointY))
+	L.SetGlobal("getL", L.NewFunction(GetLev))
+	L.SetGlobal("getMax", L.NewFunction(GetMax))
+
+	// run lua script
+	if err := L.DoFile(fileName); err != nil {
+		fmt.Println(err)
+	}
+
+	// get return value
+	ret := L.Get(-1)
+	L.Pop(1)
+
+	r, _ := strconv.ParseFloat(ret.(*lua.LTable).RawGet(lua.LNumber(1)).String(), 64)
+	g, _ := strconv.ParseFloat(ret.(*lua.LTable).RawGet(lua.LNumber(2)).String(), 64)
+	b, _ := strconv.ParseFloat(ret.(*lua.LTable).RawGet(lua.LNumber(3)).String(), 64)
+	a, _ := strconv.ParseFloat(ret.(*lua.LTable).RawGet(lua.LNumber(4)).String(), 64)
+
+	return color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}
+
+}
+
+func getColor(p complex128, lev int) (c color.RGBA) {
+
+	// use external lua script for color calculation
+	c = getColorLua(p, lev)
+
+	// use internal calculation, much faster, less dynamic
+	/*
+		r := uint8(255)
+		g := uint8((float64(lev) / float64(dfs.MaxLevel)) * float64(255))
+		b := uint8((cmplx.Abs(0-p) / MaxCoordinate) * float64(255))
+		//fmt.Printf("%v\n", b)
+		a := uint8(255)
+
+		c = color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}
+	*/
+
+	return
+
 }
 
 func Draw() {

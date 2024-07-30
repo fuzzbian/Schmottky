@@ -12,7 +12,13 @@ Playground for fractal fun
 * ~~add P/Q calculation~~
 * ~~add color scripting + optional lev channel in dfs~~
 * add Lua-Api to costomize coloring via external scripts
+    * ~~fractal coloring~~
+        * very slow! :<
+        * make optional
+        * better add presets for internal color calculation
+    * background
 * add venv for python scripts
+* add installation script
 * add lines operation for Img
 * add calculation for optical eps
 * add algo for cropped Image
