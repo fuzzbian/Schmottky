@@ -42,3 +42,4 @@ go build
 * add algo for cropped Image
 * investigate special words algo
 * maybe add Dockerfile
+* maybe cache for pq/mu calculation
