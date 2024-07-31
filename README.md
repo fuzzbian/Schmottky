@@ -1,7 +1,25 @@
 # Schmottky
-Playground for fractal fun
+Playground for fractal fun loosely based on the ideas presented in the book [Indra's Pearls](https://en.wikipedia.org/wiki/Indra%27s_Pearls_(book)).
 
-## TODO
+# Getting started
+## Dependencies
+* [Golang](https://go.dev/doc/install)
+* Python3
+     * sympy
+     * numpy
+     * matplotlib
+## Build from src
+
+```bash
+# build
+go mod init Schmottky
+go mod tidy
+go build
+# run
+./Schmottky
+```
+
+# TODO
 * ~~add sender/receiver for raw data output~~
 * ~~add receiver for matplotlib~~
 * add Grandma's recipes
@@ -23,3 +41,4 @@ Playground for fractal fun
 * add calculation for optical eps
 * add algo for cropped Image
 * investigate special words algo
+* maybe add Dockerfile
